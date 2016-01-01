@@ -10,7 +10,14 @@ require("dotenv").load();
 var app = express();
 
 app.get("/api/latest/imagesearch", function(req, res){
-	res.sendFile("data/img-search.json");
+	fs.readFile("data/img-search.json", {
+		encoding: "utf-8"
+	},
+	function(err, data) {
+		if (err) throw err;
+		var rsp = JSON.parse(data);
+		res.send(JSON.stringify(rsp.data))
+	})
 })
 
 app.get("/api/imagesearch/:search", function(req, res) {
